@@ -1,16 +1,21 @@
 package curso_spring.annotations;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
 public class Developer implements Employee {
 
-	@Autowired
-	private HobbyService hobbyService;
+	private HobbyService musicHobbyService;
 	
-	public Developer(HobbyService hobbyService) {
-		this.hobbyService = hobbyService;
+	private HobbyService sportHobbyService;
+	
+	@Autowired
+	public Developer(@Qualifier("music") HobbyService musicHobbyService, 
+					 @Qualifier("sport") HobbyService sportHobbyService) {
+		this.musicHobbyService = musicHobbyService;
+		this.sportHobbyService = sportHobbyService;
 	}
 
 	public String getDailyTasks() {
@@ -18,7 +23,7 @@ public class Developer implements Employee {
 	}
 
 	public String getHobby() {
-		return hobbyService.getHobby();
+		return musicHobbyService.getHobby() + "\n" + sportHobbyService.getHobby();
 	}
 	
 }
